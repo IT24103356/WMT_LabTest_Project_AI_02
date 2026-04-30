@@ -11,7 +11,11 @@ function AddItemPage() {
       navigate("/");
     } catch (error) {
       console.error("Failed to create item", error);
-      alert("Failed to create item");
+      const errorMessage =
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        "Failed to create item";
+      alert(errorMessage);
     }
   };
 
