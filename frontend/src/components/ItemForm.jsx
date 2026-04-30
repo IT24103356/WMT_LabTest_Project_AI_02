@@ -1,19 +1,25 @@
 import { useState } from "react";
 
 function ItemForm({ initialValues, onSubmit, submitText }) {
+  const defaultValues = {
+    name: "",
+    category: "",
+    price: "",
+    description: "",
+    imageUrl: "",
+    availabilityStatus: false,
+  };
+
   const [formData, setFormData] = useState(
-    initialValues || {
-      name: "",
-      category: "",
-      price: "",
-      description: "",
-      imageUrl: "",
-    }
+    initialValues ? { ...defaultValues, ...initialValues } : defaultValues
   );
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -50,6 +56,14 @@ function ItemForm({ initialValues, onSubmit, submitText }) {
         value={formData.description}
         onChange={handleChange}
         required
+      />
+
+      <label>Availability Status</label>
+      <input
+        type="checkbox"
+        name="availabilityStatus"
+        checked={Boolean(formData.availabilityStatus)}
+        onChange={handleChange}
       />
 
       <label>Image URL</label>
